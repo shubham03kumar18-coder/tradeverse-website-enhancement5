@@ -12,7 +12,10 @@ export async function GET() {
 
     if (userError || !user) {
       return NextResponse.json(
-        { isAdmin: false, error: "Not authenticated" },
+        {
+          isAdmin: false,
+          error: "Not authenticated",
+        },
         { status: 401 }
       )
     }
@@ -24,6 +27,8 @@ export async function GET() {
       .single()
 
     if (profileError || !profile) {
+      console.error("Profile Error:", profileError)
+
       return NextResponse.json(
         {
           isAdmin: false,
@@ -37,12 +42,12 @@ export async function GET() {
       isAdmin: profile.is_admin === true,
     })
   } catch (error) {
-    console.error(error)
+    console.error("Admin Check Error:", error)
 
     return NextResponse.json(
       {
         isAdmin: false,
-        error: "Server error",
+        error: "Server Error",
       },
       { status: 500 }
     )
